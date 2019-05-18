@@ -6,10 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <EditText
+        android:layout_centerHorizontal="true"
+        android:id="@+id/companyNameText"
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        android:layout_height="wrap_content"
+        android:hint="Company Name"/>
+
     <Button
+        android:layout_centerHorizontal="true"
         android:id="@+id/insureMeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/companyNameText"
+        android:layout_marginBottom="20dp"
         android:text="Insure Me" />
+
+    <Button
+        android:layout_centerHorizontal="true"
+        android:id="@+id/changeCredentialsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/insureMeButton"
+        android:text="Change Credentials" />
+
 
 </RelativeLayout>
