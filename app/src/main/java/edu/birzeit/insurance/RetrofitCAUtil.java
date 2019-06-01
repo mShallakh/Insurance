@@ -1,5 +1,7 @@
 package edu.birzeit.insurance;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -19,9 +21,9 @@ public class RetrofitCAUtil {
         caAPI = retrofit.create(CAAPI.class);
     }
 
-    public Observable<ResponseWrapper> getPublicKey(String companyName){
+    public Observable<List<User>> getAllCompanies(){
 
-        return caAPI.getPublicKey(companyName);
+        return caAPI.getAllCompanies();
 
     }
 

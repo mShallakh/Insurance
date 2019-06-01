@@ -8,6 +8,9 @@ import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private RetrofitInsuranceUtil retrofitInsuranceUtil;
     private RetrofitCAUtil retrofitCAUtil;
     SharedPreferences prefs;
+    ArrayList<User> companies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +43,51 @@ public class MainActivity extends AppCompatActivity {
 
         retrofitInsuranceUtil = new RetrofitInsuranceUtil();
         retrofitCAUtil = new RetrofitCAUtil();
+        companies = new ArrayList<>();
 
         prefs = getSharedPreferences(Constants.MY_SHARED_PREFERENCES, MODE_PRIVATE);
+        retrofitCAUtil.getAllCompanies()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<List<User>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<User> users) {
+                        companies.addAll(users);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     @OnClick(R.id.insureMeButton)
     public void insureMe() {
 
-        retrofitCAUtil.getPublicKey(companyNameText.getText().toString())
+
+        RequestWrapper requestWrapper = new RequestWrapper();
+        //SharedPreferences
+        String myPrivateKey = prefs.getString("MyPrivateKey", Constants.MY_PRIVATE_KEY);
+        String uniqueId = "123";
+        try {
+            byte[] uniqueIdBytes = uniqueId.getBytes();
+            requestWrapper.setData(CryptographyUtil.encrypt(companies.get(0).publicKey.getBytes(), uniqueIdBytes));
+            requestWrapper.setSignature(CryptographyUtil.encrypt(myPrivateKey.getBytes(), uniqueIdBytes));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        retrofitInsuranceUtil.insureMe(requestWrapper)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<ResponseWrapper>() {
@@ -57,42 +98,6 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(ResponseWrapper responseWrapper) {
-
-                        RequestWrapper requestWrapper = new RequestWrapper();
-                        //SharedPreferences
-                        String myPrivateKey = prefs.getString("MyPrivateKey", Constants.MY_PRIVATE_KEY);
-                        String uniqueId = "123";
-                        try {
-                            byte[] uniqueIdBytes = uniqueId.getBytes();
-                            requestWrapper.setData(CryptographyUtil.encrypt(responseWrapper.response.getBytes(), uniqueIdBytes));
-                            requestWrapper.setSignature(CryptographyUtil.encrypt(myPrivateKey.getBytes(), uniqueIdBytes));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        retrofitInsuranceUtil.insureMe(requestWrapper)
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe(new Observer<ResponseWrapper>() {
-                                    @Override
-                                    public void onSubscribe(Disposable d) {
-
-                                    }
-
-                                    @Override
-                                    public void onNext(ResponseWrapper responseWrapper) {
-
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-
-                                    }
-
-                                    @Override
-                                    public void onComplete() {
-
-                                    }
-                                });
 
                     }
 
