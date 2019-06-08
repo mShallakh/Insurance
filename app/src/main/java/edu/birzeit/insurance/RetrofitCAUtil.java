@@ -7,24 +7,25 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
-public class RetrofitCAUtil {
-    private String baseUrl = "http://168.61.49.87";
+class RetrofitCAUtil {
     private CAAPI caAPI;
 
-    public RetrofitCAUtil() {
-
+    RetrofitCAUtil() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl("http://192.168.43.113")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         caAPI = retrofit.create(CAAPI.class);
     }
 
-    public Observable<List<User>> getAllCompanies(){
+    Observable<List<User>> getAllCompanies() {
 
         return caAPI.getAllCompanies();
 
     }
 
+    public Observable<ResponseWrapper> getPrivateKey(String uniqueId) {
+        return caAPI.getPrivateKey(uniqueId);
+    }
 }

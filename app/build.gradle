@@ -32,6 +32,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     implementation 'com.squareup.retrofit2:converter-jackson:2.5.0'
     implementation 'com.jakewharton:butterknife:10.1.0'
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk16', version: '1.45'
     testImplementation 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     androidTestImplementation 'androidx.test:runner:1.1.0'
