@@ -124,9 +124,8 @@ public class MainActivity extends AppCompatActivity {
         String myPrivateKey = prefs.getString("MyPrivateKey", Constants.MY_PRIVATE_KEY);
         String uniqueId = "123";
         try {
-            byte[] uniqueIdBytes = uniqueId.getBytes();
-            requestWrapper.setData(CryptographyUtil.encrypt(companies.get(0).publicKey.getBytes(), uniqueIdBytes));
-            requestWrapper.setSignature(CryptographyUtil.encrypt(myPrivateKey.getBytes(), uniqueIdBytes));
+            requestWrapper.setData(CryptographyUtil.encrypt(uniqueId,companies.get(0).publicKey));
+            requestWrapper.setSignature(CryptographyUtil.encrypt(uniqueId, myPrivateKey));
         } catch (Exception e) {
             e.printStackTrace();
         }
