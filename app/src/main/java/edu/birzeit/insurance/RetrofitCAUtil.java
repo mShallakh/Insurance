@@ -12,7 +12,7 @@ class RetrofitCAUtil {
 
     RetrofitCAUtil() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.43.113")
+                .baseUrl("http://192.168.43.200")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
