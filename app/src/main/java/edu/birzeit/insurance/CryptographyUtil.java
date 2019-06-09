@@ -37,6 +37,6 @@ class CryptographyUtil {
     public static String encrypt(String data, String publicKey) throws BadPaddingException, IllegalBlockSizeException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
         Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         cipher.init(Cipher.ENCRYPT_MODE, getPublicKey(publicKey));
-        return new String(cipher.doFinal(data.getBytes()));
+        return Base64.getEncoder().encodeToString(cipher.doFinal(data.getBytes()));
     }
 }

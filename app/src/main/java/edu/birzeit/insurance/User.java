@@ -6,7 +6,10 @@ public class User {
 
     String name;
 
+
     String publicKey;
+
+    String privateKey;
 
     String companyURL;
 
@@ -20,16 +23,11 @@ public class User {
     }
 
 
-    public User(String name, String publicKey, int type) {
-        this.name = name;
-        this.publicKey = publicKey;
-        this.type = type;
-    }
-
-    public User(int id, String name, String publicKey, String companyURL, int type) {
+    public User(int id, String name, String publicKey, String privateKey, String companyURL, int type) {
         this.id = id;
         this.name = name;
         this.publicKey = publicKey;
+        this.privateKey = privateKey;
         this.companyURL = companyURL;
         this.type = type;
     }
@@ -58,12 +56,12 @@ public class User {
         this.publicKey = publicKey;
     }
 
-    public int getType() {
-        return type;
+    public String getPrivateKey() {
+        return privateKey;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setPrivateKey(String privateKey) {
+        this.privateKey = privateKey;
     }
 
     public String getCompanyURL() {
@@ -72,5 +70,13 @@ public class User {
 
     public void setCompanyURL(String companyURL) {
         this.companyURL = companyURL;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

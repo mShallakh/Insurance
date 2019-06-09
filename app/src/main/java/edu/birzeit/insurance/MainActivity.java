@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         companies = new ArrayList<>();
 
         prefs = getSharedPreferences(Constants.MY_SHARED_PREFERENCES, MODE_PRIVATE);
-        retrofitCAUtil.getPrivateKey("123")
+        retrofitCAUtil.getPrivateKey("1")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<ResponseWrapper>() {
@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
+
+                        Log.d("Error", e.getLocalizedMessage());
 
                     }
 
@@ -95,10 +97,16 @@ public class MainActivity extends AppCompatActivity {
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
                                 android.R.layout.simple_spinner_item, strings);
                         companyNameSpinner.setAdapter(adapter);
-                        companyNameSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        companyNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                                 selectedCompany = companies.get(position);
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
                             }
                         });
                     }
@@ -122,10 +130,10 @@ public class MainActivity extends AppCompatActivity {
         RequestWrapper requestWrapper = new RequestWrapper();
         //SharedPreferences
         String myPrivateKey = prefs.getString("MyPrivateKey", Constants.MY_PRIVATE_KEY);
-        String uniqueId = "123";
+        String uniqueId = "Abd";
         try {
             requestWrapper.setData(CryptographyUtil.encrypt(uniqueId,companies.get(0).publicKey));
-            requestWrapper.setSignature(CryptographyUtil.encrypt(uniqueId, myPrivateKey));
+            requestWrapper.setSignature("");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,6 +154,8 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
+
+                        Log.d("Erroor", e.getLocalizedMessage());
 
                     }
 

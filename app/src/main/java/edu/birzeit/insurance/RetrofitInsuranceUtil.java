@@ -10,7 +10,7 @@ class RetrofitInsuranceUtil {
 
     RetrofitInsuranceUtil(String baseUrl) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(baseUrl + ":8089")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
